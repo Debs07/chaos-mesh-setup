@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: chaos-mesh
+    meta.helm.sh/release-namespace: chaos-testing
+    prometheus.io/port: "2334"
+    prometheus.io/scrape: "true"
+  labels:
+    app.kubernetes.io/component: chaos-dashboard
+    app.kubernetes.io/instance: chaos-mesh
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: chaos-mesh
+    helm.sh/chart: chaos-mesh-2.5.2
+  name: chaos-dashboard
+  namespace: chaos-testing
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 2333
+  - name: metric
+    port: 8080
+    protocol: TCP
+    targetPort: 2334
+  selector:
+    app.kubernetes.io/component: chaos-dashboard
+    app.kubernetes.io/instance: chaos-mesh
+    app.kubernetes.io/name: chaos-mesh
+  type: LoadBalancer
